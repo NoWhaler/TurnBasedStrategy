@@ -41,6 +41,7 @@ namespace TurnBasedGame.Scripts.UI
             _uiController.OnDefendClick += OrderSlots;
             _uiController.OnWaitClick += WaitOrderSlots;
             _turnManager.OnMakeMove += MakeMove;
+            _turnManager.OnMakeAttack += MakeAttack;
         }
 
         private void OnDisable()
@@ -49,9 +50,28 @@ namespace TurnBasedGame.Scripts.UI
             _uiController.OnDefendClick -= OrderSlots;
             _uiController.OnWaitClick -= WaitOrderSlots;
             _turnManager.OnMakeMove -= MakeMove;
+            _turnManager.OnMakeAttack -= MakeAttack;
         }
 
         private void MakeMove()
+        {
+            var currentUnit = _sortedUnits[0];
+    
+            _sortedUnits.RemoveAt(0);
+            _sortedUnits.Add(currentUnit);
+            
+            _turnManager.CurrentUnitTurn = _sortedUnits[0];
+
+            _pathfinderManager.ClearTiles();
+            _turnManager.ClosestTiles.Clear();
+            _turnManager.AttackTiles.Clear();
+            
+            _pathfinderManager.GetTilesInRange(_turnManager.CurrentUnitTurn);
+            
+            ShuffleOrder();
+        }
+
+        private void MakeAttack()
         {
             var currentUnit = _sortedUnits[0];
     

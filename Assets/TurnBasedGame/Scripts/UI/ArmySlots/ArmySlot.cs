@@ -5,18 +5,18 @@ using UnityEngine.UI;
 
 namespace TurnBasedGame.Scripts.UI.ArmySlots
 {
-    public class ArmySlot : MonoBehaviour, IPointerClickHandler
+    public abstract class ArmySlot : MonoBehaviour, IPointerClickHandler
     {
-        [field: SerializeField] private ArmyType _armyType;
         [field: SerializeField] public Unit UISlotUnit { get; set; }
-        [field: SerializeField] public Image UnitPortrait { get; set; }
         
-        [field: SerializeField] public TMP_Text UnitCountText { get; set; }
+        [field: SerializeField] public Image UnitPortrait { get; set; }
 
         [field: SerializeField] private bool _isEmpty = true;
 
         [field: SerializeField] public int CurrentUnitCount { get; set; } = 0;
 
+        [field: SerializeField] private TMP_Text UnitCountText { get; set; }
+        
         public bool IsEmpty
         {
             get => _isEmpty;
@@ -40,7 +40,9 @@ namespace TurnBasedGame.Scripts.UI.ArmySlots
         {
             UnitCountText = GetComponentInChildren<TMP_Text>();
             UnitCountText.text = CurrentUnitCount.ToString();
-            IsEmpty = true;
+
+            IsEmpty = UISlotUnit == null;
+            
         }
 
         public void UpdateUnitsCount(int value)

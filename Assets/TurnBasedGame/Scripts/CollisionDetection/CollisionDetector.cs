@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TurnBasedGame.Scripts.Enum;
 using TurnBasedGame.Scripts.Managers;
 using UnityEngine;
@@ -50,8 +49,9 @@ namespace TurnBasedGame.Scripts.CollisionDetection
 
         private void OnMouseDown()
         {
-            
-            _turnManager.MoveUnitToTile(_shortestPath);
+            _directionManager.IsAttacking = true;
+            var selectedUnit = GetComponentInParent<Unit>();
+            _turnManager.MoveUnitToTile(_shortestPath, selectedUnit);
         }
 
         private void OnMouseExit()
@@ -61,7 +61,7 @@ namespace TurnBasedGame.Scripts.CollisionDetection
             {
                 tile.MeshRenderer.material.color = Color.green;
             }
-            _shortestPath.Clear();
+            // _shortestPath.Clear();
         }
     }
 }

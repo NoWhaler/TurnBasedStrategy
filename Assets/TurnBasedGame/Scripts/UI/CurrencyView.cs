@@ -7,7 +7,7 @@ namespace TurnBasedGame.Scripts.UI
     public class CurrencyView : MonoBehaviour
     {
         private TMP_Text _coinsText;
-        [field: SerializeField] private int CurrentValue { get; set; }
+        [field: SerializeField] public int CurrentValue { get; set; }
 
 
         private void Start()
@@ -18,7 +18,7 @@ namespace TurnBasedGame.Scripts.UI
 
         public void UpdateCurrentCoinsValue(int value)
         {
-            CurrentValue += value;
+            CurrentValue -= value;
             _coinsText.text = CurrentValue.ToString();
         }
     }

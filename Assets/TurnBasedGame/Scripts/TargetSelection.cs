@@ -1,5 +1,4 @@
-﻿using System;
-using TurnBasedGame.Scripts.GameInput;
+﻿using TurnBasedGame.Scripts.GameInput;
 using TurnBasedGame.Scripts.Managers;
 using UnityEngine;
 

@@ -30,7 +30,7 @@ namespace TurnBasedGame.Scripts.GameInput
         public static bool IsPutPhaseInputEnded;
 
         [field: SerializeField] public List<BattleTile> ShortestPath { get; set; } = new List<BattleTile>();
-        public event Action<List<BattleTile>> OnSelectedTileToMove; 
+        public event Action<List<BattleTile>, Unit> OnSelectedTileToMove; 
 
         private void Awake()
         {
@@ -130,7 +130,7 @@ namespace TurnBasedGame.Scripts.GameInput
                          && IsPutPhaseInputEnded 
                          && _turnManager.ClosestTiles.Contains(_selectedTile) && !_turnManager.IsMoving)
                 {
-                    OnSelectedTileToMove?.Invoke(ShortestPath);
+                    OnSelectedTileToMove?.Invoke(ShortestPath, _selectedTile.Unit);
                 }
             }
             

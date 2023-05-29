@@ -1,6 +1,6 @@
 ﻿namespace TurnBasedGame.Scripts.UI.ArmySlots
 {
-    public class PlayerSlots : ArmySlotsController
+    public class PlayerSlot : ArmySlot
     {
         
     }

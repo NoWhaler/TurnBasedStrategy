@@ -14,9 +14,7 @@ namespace TurnBasedGame.Scripts
 
         [field: SerializeField] public MeshRenderer MeshRenderer { get; set; }
 
-
         private SelectionController _selectionController;
-
 
         private void OnEnable()
         {

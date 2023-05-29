@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using TurnBasedGame.Scripts.Enum;
 using TurnBasedGame.Scripts.GameInput;
 using UnityEngine;
 
@@ -17,23 +16,39 @@ namespace TurnBasedGame.Scripts.Managers
 
         private SelectionController _selectionController;
 
+        private DirectionManager _directionManager;
+
         public event Action OnMakeMove;
 
+        public event Action OnMakeAttack;
+
         [field: SerializeField] public bool IsMoving { get; set; }
+        
         private void OnEnable()
         {
             _selectionController = FindObjectOfType<SelectionController>();
+            _directionManager = FindObjectOfType<DirectionManager>();
 
             _selectionController.OnSelectedTileToMove += MoveUnitToTile;
         }
 
-        public void MoveUnitToTile(List<BattleTile> shortestPath)
+        private void DealDamage(Unit defender)
         {
-            StartCoroutine(MoveUnitAlongPathCo(shortestPath));
+            CurrentUnitTurn.DealDamage(CurrentUnitTurn, defender);
+            _directionManager.IsAttacking = false;
+            _selectionController.ShortestPath.Clear();
         }
 
+        public void MoveUnitToTile(List<BattleTile> shortestPath, Unit defender)
+        {
+            StartCoroutine(MoveUnitAlongPathCo(shortestPath, () =>
+            {
+                DealDamage(defender);
+            }));
+            
+        }
 
-        private IEnumerator MoveUnitAlongPathCo(List<BattleTile> shortestPath)
+        private IEnumerator MoveUnitAlongPathCo(List<BattleTile> shortestPath, Action onAttack)
         {
             if (shortestPath.Count != 0)
             {
@@ -43,13 +58,21 @@ namespace TurnBasedGame.Scripts.Managers
                     yield return StartCoroutine(MoveUnitCo(tile));
                 }
                 shortestPath[^1].IsEmpty = false;
-                _selectionController.ShortestPath.Clear();
+                
                 IsMoving = false;
 
-                OnMakeMove?.Invoke();
+                if (_directionManager.IsAttacking)
+                {
+                    onAttack?.Invoke();
+                    OnMakeAttack?.Invoke();
+                }
+
+                else
+                {
+                    OnMakeMove?.Invoke();
+                }
             }
         }
-
 
         private IEnumerator MoveUnitCo(BattleTile battleTile)
         {
@@ -69,7 +92,5 @@ namespace TurnBasedGame.Scripts.Managers
             CurrentUnitTurn.BattleTile = battleTile;
             CurrentUnitTurn.transform.position = battleTile.transform.position + new Vector3(0f, 0.5f, 0f);
         }
-
-        
     }
 }

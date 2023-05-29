@@ -5,7 +5,9 @@ namespace TurnBasedGame.Scripts.Managers
 {
     public class DirectionManager: MonoBehaviour
     {
-        [field: SerializeField] public AttackDirection CurrentAttackDirection { get; set; }
+        [field: SerializeField] private AttackDirection CurrentAttackDirection { get; set; }
+        
+        [field: SerializeField] public bool IsAttacking { get; set; }
 
         public void SetDirection(AttackDirection attackDirection)
         {

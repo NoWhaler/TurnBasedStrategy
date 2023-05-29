@@ -19,6 +19,8 @@ namespace TurnBasedGame.Scripts.UI
 
         private PlayerSlots _armySlotsController;
 
+        private CurrencyView _currencyView;
+
         public bool IsEmpty
         {
             get => _isEmpty;
@@ -39,9 +41,9 @@ namespace TurnBasedGame.Scripts.UI
             }
         }
 
-
         private void OnEnable()
         {
+            _currencyView = FindObjectOfType<CurrencyView>();
             _armySlotsController = FindObjectOfType<PlayerSlots>();
             UnitCostText = GetComponentInChildren<TMP_Text>();
             UnitCostText.text = CostValue.ToString();
@@ -54,20 +56,25 @@ namespace TurnBasedGame.Scripts.UI
             {
                 foreach (var slot in _armySlotsController.allArmySlots)
                 {
-                    if (slot.IsEmpty)
+                    if (_currencyView.CurrentValue >= CostValue)
                     {
-                        slot.UISlotUnit = UISlotUnit;
-                        slot.IsEmpty = false;
-                        slot.UnitPortrait = UnitPortrait;
-                        slot.UISlotUnit.UnitNumber = 1;
-                        slot.UpdateUnitsCount(1);
-                        return;
-                    }
-                    if (!slot.IsEmpty && slot.UISlotUnit == UISlotUnit)
-                    {
-                        slot.UISlotUnit.UnitNumber += 1;
-                        slot.UpdateUnitsCount(1);
-                        return;
+                        if (slot.IsEmpty)
+                        {
+                            slot.UISlotUnit = UISlotUnit;
+                            slot.IsEmpty = false;
+                            slot.UnitPortrait = UnitPortrait;
+                            slot.UISlotUnit.UnitNumber = 1;
+                            slot.UpdateUnitsCount(1);
+                            _currencyView.UpdateCurrentCoinsValue(CostValue);
+                            return;
+                        }
+                        if (!slot.IsEmpty && slot.UISlotUnit == UISlotUnit)
+                        {
+                            slot.UISlotUnit.UnitNumber += 1;
+                            slot.UpdateUnitsCount(1);
+                            _currencyView.UpdateCurrentCoinsValue(CostValue);
+                            return;
+                        }
                     }
                 }
             }

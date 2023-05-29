@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 100249788181174947}
   - component: {fileID: 4599620213404035259}
   m_Layer: 0
-  m_Name: EnemyPortrait
+  m_Name: PlayerPortrait
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,9 +87,9 @@ GameObject:
   - component: {fileID: 2241715263577765686}
   - component: {fileID: 2241715263577765680}
   - component: {fileID: 2241715263577765681}
-  - component: {fileID: 9153091077892580924}
+  - component: {fileID: 2627706723892353022}
   m_Layer: 0
-  m_Name: EnemyArmySlot
+  m_Name: PlayerArmySlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9153091077892580924
+--- !u!114 &2627706723892353022
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2241715263577765687}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5d7b693ba92402e9fc8b4d22cceba56, type: 3}
+  m_Script: {fileID: 11500000, guid: 730d24efe4014e5e8436bfcdf5d71089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <UISlotUnit>k__BackingField: {fileID: 0}
