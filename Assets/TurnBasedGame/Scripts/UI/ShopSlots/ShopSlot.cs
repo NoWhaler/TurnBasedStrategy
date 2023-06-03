@@ -1,10 +1,13 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using TurnBasedGame.Scripts.UI.ArmySlots;
+using TurnBasedGame.Scripts.UI.Controller;
+using TurnBasedGame.Scripts.UI.StatsDescription;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace TurnBasedGame.Scripts.UI
+namespace TurnBasedGame.Scripts.UI.ShopSlots
 {
     public class ShopSlot : MonoBehaviour, IPointerClickHandler
     {
@@ -18,6 +21,10 @@ namespace TurnBasedGame.Scripts.UI
         [field: SerializeField] public int CostValue { get; set; }
 
         private PlayerSlots _armySlotsController;
+
+        private UIController _uiController;
+
+        private StatsPanel _statsPanel;
 
         private CurrencyView _currencyView;
 
@@ -43,41 +50,76 @@ namespace TurnBasedGame.Scripts.UI
 
         private void OnEnable()
         {
+            _uiController = FindObjectOfType<UIController>();
+            _statsPanel = FindObjectOfType<StatsPanel>();
             _currencyView = FindObjectOfType<CurrencyView>();
             _armySlotsController = FindObjectOfType<PlayerSlots>();
             UnitCostText = GetComponentInChildren<TMP_Text>();
+            
             UnitCostText.text = CostValue.ToString();
             IsEmpty = false;
+
+            _uiController.OnBuyUnit += BuyUnit;
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        private void OnDisable()
         {
-            if (eventData.button == PointerEventData.InputButton.Right)
+            _uiController.OnBuyUnit -= BuyUnit;
+        }
+
+        private void BuyUnit(ShopSlot currentSlot)
+        {
+            if (currentSlot == this)
             {
-                foreach (var slot in _armySlotsController.allArmySlots)
+                foreach (var slot in _armySlotsController. allArmySlots)
                 {
                     if (_currencyView.CurrentValue >= CostValue)
                     {
                         if (slot.IsEmpty)
                         {
-                            slot.UISlotUnit = UISlotUnit;
+                            slot.UISlotUnit = _statsPanel.CurrentUnit;
                             slot.IsEmpty = false;
-                            slot.UnitPortrait = UnitPortrait;
-                            slot.UISlotUnit.UnitNumber = 1;
-                            slot.UpdateUnitsCount(1);
-                            _currencyView.UpdateCurrentCoinsValue(CostValue);
+                            slot.UnitPortrait.sprite = UnitPortrait.sprite;
+                            slot.UISlotUnit.UnitNumber = _statsPanel.CurrentUnitsToBuy;
+                            slot.UpdateUnitsCount(_statsPanel.CurrentUnitsToBuy);
+                            _currencyView.UpdateCurrentCoinsValue(CostValue * _statsPanel.CurrentUnitsToBuy);
+                            
+                            ResetScrollBar();
                             return;
                         }
-                        if (!slot.IsEmpty && slot.UISlotUnit == UISlotUnit)
+
+                        if (!slot.IsEmpty && slot.UISlotUnit == _statsPanel.CurrentUnit)
                         {
-                            slot.UISlotUnit.UnitNumber += 1;
-                            slot.UpdateUnitsCount(1);
-                            _currencyView.UpdateCurrentCoinsValue(CostValue);
+                            slot.UISlotUnit.UnitNumber += _statsPanel.CurrentUnitsToBuy;
+                            slot.UpdateUnitsCount(_statsPanel.CurrentUnitsToBuy);
+                            _currencyView.UpdateCurrentCoinsValue(CostValue * _statsPanel.CurrentUnitsToBuy);
+                            
+                            ResetScrollBar();
                             return;
                         }
                     }
                 }
             }
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                _statsPanel.OpenPanel(UISlotUnit);
+                _uiController.CurrentShopSlot = this;
+
+               ResetScrollBar();
+            }
+        }
+
+
+        private void ResetScrollBar()
+        {
+            _statsPanel.Scrollbar.numberOfSteps = Mathf.FloorToInt((float)_currencyView.CurrentValue / CostValue);
+            _statsPanel.MaxUnitsToBuy = _statsPanel.Scrollbar.numberOfSteps;
+            _statsPanel.MinUnits.text = "0";
+            _statsPanel.MaxUnits.text = _statsPanel.Scrollbar.numberOfSteps.ToString();
         }
     }
 }

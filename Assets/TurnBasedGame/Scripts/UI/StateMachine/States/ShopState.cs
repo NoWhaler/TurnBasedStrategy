@@ -4,7 +4,7 @@ namespace TurnBasedGame.Scripts.UI.UIStateMachine.States
 {
     public class ShopState : BaseState
     {
-        public ShopState(UIStateMachine currentStateContext, UIStateFactory stateFactory) 
+        public ShopState(StateMachine.UIStateMachine currentStateContext, UIStateFactory stateFactory) 
             : base(currentStateContext, stateFactory)
         {
         }

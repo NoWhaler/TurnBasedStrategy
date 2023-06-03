@@ -1,17 +1,16 @@
 ﻿using System;
 using TurnBasedGame.Scripts.Enum;
 using TurnBasedGame.Scripts.Interfaces;
-using TurnBasedGame.Scripts.Managers;
 using TurnBasedGame.Scripts.UI;
-using TurnBasedGame.Scripts.UI.StatsDescription;
-using Unity.VisualScripting;
+using TurnBasedGame.Scripts.UI.Controller;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace TurnBasedGame.Scripts
 {
     public class Unit : MonoBehaviour, IBattleUnit, IUnitColor
     {
+        [field: SerializeField] public string UnitName { get; set; }
+        
         [field: Header("Unit stats")]
         [field: SerializeField] public int CurrentHealthPoints { get; set; }
         [field: SerializeField] public int MaxHealthPoints { get; set; }
@@ -35,28 +34,54 @@ namespace TurnBasedGame.Scripts
         [field: SerializeField] public BattleTile BattleTile { get; set; }
         
         [field: SerializeField] public bool IsSelected { get; set; }
-        [field: SerializeField] public bool IsMoved { get; set; }
-
-        [field: SerializeField] public MeshRenderer UnitMaterial { get; set; }
+        
         [field: SerializeField] public Sprite UnitPortrait { get; set; }
 
-        public UnitsCountView UnitsCountView { get; set; }
-        
-        private Stats _unitStats { get; set; } 
+        [field: SerializeField] public UnitsCountView UnitsCountView { get; set; }
 
+        [field: SerializeField] public bool HasCounterAttack { get; set; } = true;
+
+        private bool IsDead { get; set; }
+
+        public event Action<Unit> OnDeath;
+        
         private void OnEnable()
         {
             CurrentHealthPoints = MaxHealthPoints;
-            _unitStats = FindObjectOfType<Stats>();
             UnitsCountView = GetComponentInChildren<UnitsCountView>();
         }
 
         public void DealDamage(Unit attacker, Unit defender)
         {
-            defender.GetDamage(attacker.MaxDamage * attacker.UnitNumber);
+            if (attacker != null && defender != null)
+            {
+                if (attacker != defender && attacker.UnitFractionType != defender.UnitFractionType)
+                {
+                    defender.GetDamage(attacker.MaxDamage * attacker.UnitNumber);
+                    
+                    DamageLogsController.Instance.LogDamageEvent(attacker, defender);
+
+                    if (CheckUnitIsDead(defender))
+                    {
+                        DamageLogsController.Instance.LogDeathEvent(defender);
+                    }
+
+                    if (defender.HasCounterAttack && attacker.UnitType != UnitType.RangeUnit)
+                    {
+                        attacker.GetDamage(defender.MaxDamage * defender.UnitNumber);
+                        DamageLogsController.Instance.LogDamageEvent(defender, attacker);
+                        defender.HasCounterAttack = false;
+                        
+                        if (CheckUnitIsDead(attacker))
+                        {
+                            DamageLogsController.Instance.LogDeathEvent(attacker);
+                        }
+                    }
+                }
+            }
         }
 
-        public void GetDamage(int value)
+        private void GetDamage(int value)
         {
             int remainingDamage = value;
 
@@ -97,19 +122,20 @@ namespace TurnBasedGame.Scripts
                 UnitNumber = 0;
             }
         }
-        
-        private void OnMouseEnter()
-        {
-            Debug.Log("Enter");
-            _unitStats.GetComponent<Image>().enabled = true;
-            _unitStats.ShowStats(this);
-        }
 
-        private void OnMouseExit()
+        private bool CheckUnitIsDead(Unit unit)
         {
-            Debug.Log("Exit");
-            _unitStats.GetComponent<Image>().enabled = false;
-            _unitStats.ClearStats();
+            if (unit.UnitNumber <= 0)
+            {
+                OnDeath?.Invoke(unit);
+                unit.BattleTile.Unit = null;
+                unit.BattleTile = null;
+                Destroy(unit.gameObject);
+
+                return unit.IsDead = true;
+            }
+
+            return unit.IsDead = false;
         }
     }
 }

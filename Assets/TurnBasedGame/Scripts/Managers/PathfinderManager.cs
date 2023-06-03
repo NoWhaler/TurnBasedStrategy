@@ -263,7 +263,6 @@ namespace TurnBasedGame.Scripts.Managers
             }
         }
 
-
         public void HighlightGreen(List<BattleTile> shortestPathList)
         {
             if (shortestPathList != null)

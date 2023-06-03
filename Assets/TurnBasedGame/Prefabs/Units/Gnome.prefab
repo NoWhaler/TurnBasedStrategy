@@ -1,5 +1,81 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &174496880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 174496881}
+  - component: {fileID: 174496883}
+  - component: {fileID: 174496882}
+  m_Layer: 6
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &174496881
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174496880}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 744574167192110568}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 10, y: 5}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &174496883
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174496880}
+  m_CullTransparentMesh: 1
+--- !u!114 &174496882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174496880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: a6b3b92bf78d9b846905727c5b1d9eca, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1153498087254230219
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,6 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a10b071e40945daa497820901da3004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _backGroundImage: {fileID: 5592921939377788097}
 --- !u!1 &2240661688342021358
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,6 +281,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3396231681693213569}
+  - {fileID: 174496881}
   m_Father: {fileID: 3363328854097117415}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 35, y: 0, z: 0}
@@ -233,14 +311,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.07450962, g: 0, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 628fd02aef5400f4c99b1fa0dfbcae90, type: 3}
+  m_Sprite: {fileID: 21300006, guid: 34ecf51bcd3f4424eafda7dafd885bd0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -547,7 +625,7 @@ BoxCollider:
   m_GameObject: {fileID: 4034070389428281149}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -563,23 +641,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e431d6150554652b081ca136a0b8a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <CurrentHealthPoints>k__BackingField: 0
+  <UnitName>k__BackingField: "\u0413\u043D\u043E\u043C"
+  <CurrentHealthPoints>k__BackingField: 10
   <MaxHealthPoints>k__BackingField: 10
   <Attack>k__BackingField: 15
-  <Defence>k__BackingField: 15
+  <Defense>k__BackingField: 0
   <MinDamage>k__BackingField: 5
   <MaxDamage>k__BackingField: 6
   <AttackRange>k__BackingField: 1
   <MoveRange>k__BackingField: 4
   <Initiative>k__BackingField: 4
-  <UnitNumber>k__BackingField: 14
+  <UnitNumber>k__BackingField: 123
   <UnitType>k__BackingField: 0
   <UnitFractionType>k__BackingField: 0
   <BattleTile>k__BackingField: {fileID: 0}
   <IsSelected>k__BackingField: 0
-  <IsMoved>k__BackingField: 0
-  <UnitMaterial>k__BackingField: {fileID: 4034070389428281152}
   <UnitPortrait>k__BackingField: {fileID: 21300000, guid: 61dab0b6e506c6a43b12d9fde15b2393, type: 3}
+  <UnitsCountView>k__BackingField: {fileID: 0}
+  <HasCounterAttack>k__BackingField: 1
 --- !u!1 &4173840589750467064
 GameObject:
   m_ObjectHideFlags: 0

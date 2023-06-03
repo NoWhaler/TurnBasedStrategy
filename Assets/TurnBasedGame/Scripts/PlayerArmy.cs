@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TurnBasedGame.Scripts.UI;
 using TurnBasedGame.Scripts.UI.ArmySlots;
+using TurnBasedGame.Scripts.UI.Controller;
 using UnityEngine;
 
 namespace TurnBasedGame.Scripts
@@ -38,6 +39,7 @@ namespace TurnBasedGame.Scripts
                 var unit = Instantiate(Army[i], Vector3.zero, Quaternion.identity, transform);
                 Army[i] = unit;
                 unit.UnitsCountView.UpdateCountValue(unit.UnitNumber);
+                unit.UnitsCountView._backGroundImage.color = Color.blue;
                 unit.gameObject.SetActive(false);
             }
             

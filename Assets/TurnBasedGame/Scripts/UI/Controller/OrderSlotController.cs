@@ -1,34 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TurnBasedGame.Scripts.Enum;
 using TurnBasedGame.Scripts.Managers;
 using UnityEngine;
+using UnityEngine.UI;
 
-namespace TurnBasedGame.Scripts.UI
+namespace TurnBasedGame.Scripts.UI.Controller
 {
     public class OrderSlotController : MonoBehaviour
     {
-        [SerializeField]
-        private List<BattleOrderUnitSlot> _battleOrderUnitSlots = new ();
+        [SerializeField] private List<BattleOrderUnitSlot> _battleOrderUnitSlots = new ();
 
-        private List<Unit> _allUnits = new List<Unit>();
+        [SerializeField] private List<Unit> _allUnits = new List<Unit>();
+
+        [SerializeField] private Image _currentUnitPortrait;
 
         private PlayerArmy _playerArmy;
         private EnemyArmy _enemyArmy;
         private UIController _uiController;
         private TurnManager _turnManager;
         private PathfinderManager _pathfinderManager;
-        private List<Unit> _sortedUnits;
+        
+        [SerializeField] private List<Unit> _sortedUnits;
 
         private void Start()
         {
             _playerArmy = FindObjectOfType<PlayerArmy>();
             _enemyArmy = FindObjectOfType<EnemyArmy>();
-            
         }
-        
-        
+
         private void OnEnable()
         {
             _uiController = FindObjectOfType<UIController>();
@@ -41,17 +41,54 @@ namespace TurnBasedGame.Scripts.UI
             _uiController.OnDefendClick += OrderSlots;
             _uiController.OnWaitClick += WaitOrderSlots;
             _turnManager.OnMakeMove += MakeMove;
-            _turnManager.OnMakeAttack += MakeAttack;
+            _turnManager.OnMakeAttack += DoAttack;
         }
 
         private void OnDisable()
         {
+            foreach (var unit in _allUnits)
+            {
+                unit.OnDeath -= UnitDeath;
+            }
+            
             _uiController.OnBattleStartToSetOrderSlots -= StartCombat;
             _uiController.OnDefendClick -= OrderSlots;
             _uiController.OnWaitClick -= WaitOrderSlots;
             _turnManager.OnMakeMove -= MakeMove;
-            _turnManager.OnMakeAttack -= MakeAttack;
+            _turnManager.OnMakeAttack -= DoAttack;
         }
+
+        private void UnitDeath(Unit unit)
+        {
+            if (_allUnits.Contains(unit) && _sortedUnits.Contains(unit))
+            {
+                _allUnits.Remove(unit);
+                _sortedUnits.Remove(unit);
+                
+                ShuffleOrder();
+            }
+
+            if (_enemyArmy.Army.Contains(unit))
+            {
+                _enemyArmy.Army.Remove(unit);
+
+                if (_enemyArmy.Army.Count == 0)
+                {
+                    _uiController.IsWinStateActive = true;
+                }
+            }
+
+            if (_playerArmy.Army.Contains(unit))
+            {
+                _playerArmy.Army.Remove(unit);
+                
+                if (_playerArmy.Army.Count == 0)
+                {
+                    _uiController.IsLoseStateActive = true;
+                }
+            }
+        }
+        
 
         private void MakeMove()
         {
@@ -60,7 +97,7 @@ namespace TurnBasedGame.Scripts.UI
             _sortedUnits.RemoveAt(0);
             _sortedUnits.Add(currentUnit);
             
-            _turnManager.CurrentUnitTurn = _sortedUnits[0];
+            SwapCurrentUnit();
 
             _pathfinderManager.ClearTiles();
             _turnManager.ClosestTiles.Clear();
@@ -71,14 +108,14 @@ namespace TurnBasedGame.Scripts.UI
             ShuffleOrder();
         }
 
-        private void MakeAttack()
+        private void DoAttack()
         {
             var currentUnit = _sortedUnits[0];
     
             _sortedUnits.RemoveAt(0);
             _sortedUnits.Add(currentUnit);
             
-            _turnManager.CurrentUnitTurn = _sortedUnits[0];
+            SwapCurrentUnit();
 
             _pathfinderManager.ClearTiles();
             _turnManager.ClosestTiles.Clear();
@@ -96,7 +133,7 @@ namespace TurnBasedGame.Scripts.UI
             _sortedUnits.RemoveAt(0);
             _sortedUnits.Add(currentUnit);
             
-            _turnManager.CurrentUnitTurn = _sortedUnits[0];
+            SwapCurrentUnit();
             
             _pathfinderManager.ClearTiles();
             _turnManager.ClosestTiles.Clear();
@@ -114,7 +151,7 @@ namespace TurnBasedGame.Scripts.UI
             _sortedUnits.RemoveAt(0);
             _sortedUnits.Add(currentUnit);
             
-            _turnManager.CurrentUnitTurn = _sortedUnits[0];
+            SwapCurrentUnit();
 
             _pathfinderManager.ClearTiles();
             _turnManager.ClosestTiles.Clear();
@@ -125,6 +162,17 @@ namespace TurnBasedGame.Scripts.UI
             ShuffleOrder();
         }
 
+        private void SwapCurrentUnit()
+        {
+            _turnManager.CurrentUnitTurn = _sortedUnits[0];
+            _currentUnitPortrait.sprite = _turnManager.CurrentUnitTurn.UnitPortrait;
+            
+            if (!_turnManager.CurrentUnitTurn.HasCounterAttack)
+            {
+                _turnManager.CurrentUnitTurn.HasCounterAttack = true;
+            }
+        }
+
         private void StartCombat()
         {
             _allUnits = _playerArmy.Army;
@@ -133,6 +181,11 @@ namespace TurnBasedGame.Scripts.UI
                 .Where(unit => unit.gameObject.activeInHierarchy)
                 .OrderBy(unit => -unit.Initiative)
                 .ToList();
+            
+            foreach (var unit in _allUnits)
+            {
+                unit.OnDeath += UnitDeath;
+            }
 
             foreach (var unit in _allUnits)
             {
@@ -144,6 +197,7 @@ namespace TurnBasedGame.Scripts.UI
             }
             
             _turnManager.CurrentUnitTurn = _sortedUnits[0];
+            _currentUnitPortrait.sprite = _turnManager.CurrentUnitTurn.UnitPortrait;
             _pathfinderManager.GetTilesInRange(_turnManager.CurrentUnitTurn);
             ShuffleOrder();
             
@@ -154,7 +208,7 @@ namespace TurnBasedGame.Scripts.UI
             for (int i = 0; i < _battleOrderUnitSlots.Count; i++)
             {
                 _battleOrderUnitSlots[i].UISlotUnit = _sortedUnits[i % _sortedUnits.Count];
-                _battleOrderUnitSlots[i].UnitPortrait.color = _battleOrderUnitSlots[i].UISlotUnit.UnitMaterial.sharedMaterial.color;
+                _battleOrderUnitSlots[i].UnitPortrait.sprite = _battleOrderUnitSlots[i].UISlotUnit.UnitPortrait;
                 _battleOrderUnitSlots[i].UpdateCounter(_battleOrderUnitSlots[i].UISlotUnit.UnitNumber);
 
                 if (_battleOrderUnitSlots[i].UISlotUnit.UnitFractionType == UnitFractionType.Player)

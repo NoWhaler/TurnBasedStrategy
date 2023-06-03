@@ -2,7 +2,7 @@
 {
     public enum UnitType
     {
-        WalkingUnit,
-        FlyingUnit,
+        MeleeUnit,
+        RangeUnit,
     }
 }

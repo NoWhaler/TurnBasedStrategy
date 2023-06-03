@@ -1,7 +1,9 @@
-﻿using TurnBasedGame.Scripts.UI.UIStateMachine.States;
+﻿using TurnBasedGame.Scripts.UI.Controller;
+using TurnBasedGame.Scripts.UI.UIStateMachine;
+using TurnBasedGame.Scripts.UI.UIStateMachine.States;
 using UnityEngine;
 
-namespace TurnBasedGame.Scripts.UI.UIStateMachine
+namespace TurnBasedGame.Scripts.UI.StateMachine
 {
     public class UIStateMachine : MonoBehaviour
     {
@@ -9,6 +11,12 @@ namespace TurnBasedGame.Scripts.UI.UIStateMachine
         [field: SerializeField] public Canvas CombatCanvas { get; set; }
         
         [field: SerializeField] public Canvas ShopCanvas { get; set; }
+        
+        [field: SerializeField] public Canvas LoseCanvas { get; set; }
+        
+        [field: SerializeField] public Canvas WinCanvas { get; set; }
+        
+        [field: SerializeField] public Canvas LoggerCanvas { get; set; }
         
         public UIController UIController { get; set; }
         public BaseState CurrentState { get; set; }

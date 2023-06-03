@@ -4,7 +4,7 @@ namespace TurnBasedGame.Scripts.UI.UIStateMachine.States
 {
     public class CombatState : BaseState
     {
-        public CombatState(UIStateMachine currentStateContext, UIStateFactory stateFactory) 
+        public CombatState(StateMachine.UIStateMachine currentStateContext, UIStateFactory stateFactory) 
             : base(currentStateContext, stateFactory) { }
 
         public override void EnterState()
@@ -14,7 +14,7 @@ namespace TurnBasedGame.Scripts.UI.UIStateMachine.States
 
         protected override void UpdateState()
         {
-            
+            CheckSwitchStates();   
         }
 
         protected override void ExitState()
@@ -24,7 +24,15 @@ namespace TurnBasedGame.Scripts.UI.UIStateMachine.States
         
         protected override void CheckSwitchStates()
         {
-            
+            if (StateContext.UIController.IsWinStateActive)
+            {
+                SwitchState(StateFactory.WinState());
+            }
+
+            if (StateContext.UIController.IsLoseStateActive)
+            {
+                SwitchState(StateFactory.LoseState());
+            }
         }
     }
 }

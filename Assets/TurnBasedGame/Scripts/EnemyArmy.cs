@@ -4,6 +4,7 @@ using System.Linq;
 using TurnBasedGame.Scripts.Enum;
 using TurnBasedGame.Scripts.UI;
 using TurnBasedGame.Scripts.UI.ArmySlots;
+using TurnBasedGame.Scripts.UI.Controller;
 using UnityEngine;
 
 namespace TurnBasedGame.Scripts
@@ -58,6 +59,7 @@ namespace TurnBasedGame.Scripts
                 unit.gameObject.SetActive(false);
                 unit.UnitFractionType = UnitFractionType.Enemy;
                 unit.UnitsCountView.UpdateCountValue(unit.UnitNumber);
+                unit.UnitsCountView._backGroundImage.color = Color.red;
             }
         }
 

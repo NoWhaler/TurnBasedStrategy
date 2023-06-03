@@ -3,9 +3,9 @@
     public abstract class BaseState
     {
         protected UIStateFactory StateFactory { get; set; }
-        protected UIStateMachine StateContext { get; set; }
+        protected StateMachine.UIStateMachine StateContext { get; set; }
         
-        protected BaseState(UIStateMachine currentStateContext, UIStateFactory stateFactory)
+        protected BaseState(StateMachine.UIStateMachine currentStateContext, UIStateFactory stateFactory)
         {
             StateContext = currentStateContext;
             StateFactory = stateFactory;

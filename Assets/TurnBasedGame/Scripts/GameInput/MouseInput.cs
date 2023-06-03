@@ -9,16 +9,11 @@ namespace TurnBasedGame.Scripts.GameInput
 
         public event Action OnRightMouseClickToDeselect;
 
-        public event Action OnMouseEnterEvent;
-        
-        public event Action OnMouseExitEvent;
-
         private void Update()
         {
             SelectPosition();
             DeselectGameObject();
         }
-
 
         private void SelectPosition()
         {

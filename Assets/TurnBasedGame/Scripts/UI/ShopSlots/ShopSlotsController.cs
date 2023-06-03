@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TurnBasedGame.Scripts.UI.ShopSlots;
 using UnityEngine;
 
 namespace TurnBasedGame.Scripts.UI

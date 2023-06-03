@@ -2,7 +2,7 @@
 {
     public class PreCombatState : BaseState
     {
-        public PreCombatState(UIStateMachine currentStateContext, UIStateFactory stateFactory) 
+        public PreCombatState(StateMachine.UIStateMachine currentStateContext, UIStateFactory stateFactory) 
             : base(currentStateContext, stateFactory) { }
 
         public override void EnterState()

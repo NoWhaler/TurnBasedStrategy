@@ -36,7 +36,7 @@ namespace TurnBasedGame.Scripts.Managers
         {
             CurrentUnitTurn.DealDamage(CurrentUnitTurn, defender);
             _directionManager.IsAttacking = false;
-            _selectionController.ShortestPath.Clear();
+            
         }
 
         public void MoveUnitToTile(List<BattleTile> shortestPath, Unit defender)
@@ -47,6 +47,17 @@ namespace TurnBasedGame.Scripts.Managers
             }));
             
         }
+
+
+        public void RangeAttack(Unit defender)
+        {
+            if (_directionManager.IsAttacking)
+            {
+                CurrentUnitTurn.DealDamage(CurrentUnitTurn, defender);
+                OnMakeAttack?.Invoke();
+            }
+        }
+        
 
         private IEnumerator MoveUnitAlongPathCo(List<BattleTile> shortestPath, Action onAttack)
         {
@@ -60,6 +71,8 @@ namespace TurnBasedGame.Scripts.Managers
                 shortestPath[^1].IsEmpty = false;
                 
                 IsMoving = false;
+                
+                _selectionController.ShortestPath.Clear();
 
                 if (_directionManager.IsAttacking)
                 {

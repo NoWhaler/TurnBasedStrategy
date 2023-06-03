@@ -12,12 +12,21 @@ namespace TurnBasedGame.Scripts.UI.StatsDescription
 
         public void ShowStats(Unit unit)
         {
+            if (unit.UnitName != "")
+            {
+                var transform1 = transform;
+                var statDescription = Instantiate(_description, transform1.position, Quaternion.identity, transform1);
+
+                statDescription.DescriptionText.text = $"{unit.UnitName}";
+                AllDescriptions.Add(statDescription.DescriptionText);
+            }
+        
             if (unit.CurrentHealthPoints != 0 && unit.MaxHealthPoints != 0)
             {
                 var transform1 = transform;
                 var statDescription = Instantiate(_description, transform1.position, Quaternion.identity, transform1);
 
-                statDescription.DescriptionText.text = $"Health: {unit.CurrentHealthPoints} / {unit.MaxHealthPoints}";
+                statDescription.DescriptionText.text = $"Здоров'я: {unit.CurrentHealthPoints} / {unit.MaxHealthPoints}";
                 AllDescriptions.Add(statDescription.DescriptionText);
             }
             
@@ -26,7 +35,7 @@ namespace TurnBasedGame.Scripts.UI.StatsDescription
                 var transform1 = transform;
                 var statDescription = Instantiate(_description, transform1.position, Quaternion.identity, transform1);
                
-                statDescription.DescriptionText.text = $"Attack: {unit.Attack}";
+                statDescription.DescriptionText.text = $"Атака: {unit.Attack}";
                 AllDescriptions.Add(statDescription.DescriptionText);
             }
             
@@ -35,7 +44,7 @@ namespace TurnBasedGame.Scripts.UI.StatsDescription
                 var transform1 = transform;
                 var statDescription = Instantiate(_description, transform1.position, Quaternion.identity, transform1);
 
-                statDescription.DescriptionText.text = $"Defense: {unit.Defense}";
+                statDescription.DescriptionText.text = $"Захист: {unit.Defense}";
                 AllDescriptions.Add(statDescription.DescriptionText);
             }
             
@@ -44,7 +53,7 @@ namespace TurnBasedGame.Scripts.UI.StatsDescription
                 var transform1 = transform;
                 var statDescription = Instantiate(_description, transform1.position, Quaternion.identity, transform1);
                 
-                statDescription.DescriptionText.text = $"Damage: {unit.MinDamage} / {unit.MaxDamage}";
+                statDescription.DescriptionText.text = $"Шкода: {unit.MinDamage} / {unit.MaxDamage}";
                 AllDescriptions.Add(statDescription.DescriptionText);
             }
             
@@ -53,7 +62,7 @@ namespace TurnBasedGame.Scripts.UI.StatsDescription
                 var transform1 = transform;
                 var statDescription = Instantiate(_description, transform1.position, Quaternion.identity, transform1);
                 
-                statDescription.DescriptionText.text = $"Attack Range: {unit.AttackRange}";
+                statDescription.DescriptionText.text = $"Дальність атаки: {unit.AttackRange}";
                 AllDescriptions.Add(statDescription.DescriptionText);
             }
             
@@ -62,7 +71,7 @@ namespace TurnBasedGame.Scripts.UI.StatsDescription
                 var transform1 = transform;
                 var statDescription = Instantiate(_description, transform1.position, Quaternion.identity, transform1);
                
-                statDescription.DescriptionText.text = $"Move range: {unit.MoveRange}";
+                statDescription.DescriptionText.text = $"Дальність руху: {unit.MoveRange}";
                 AllDescriptions.Add(statDescription.DescriptionText);
             }
             
@@ -71,7 +80,7 @@ namespace TurnBasedGame.Scripts.UI.StatsDescription
                 var transform1 = transform;
                 var statDescription = Instantiate(_description, transform1.position, Quaternion.identity, transform1);
                 
-                statDescription.DescriptionText.text = $"Initiative: {unit.Initiative}";
+                statDescription.DescriptionText.text = $"Ініціатива: {unit.Initiative}";
                 AllDescriptions.Add(statDescription.DescriptionText);
             }
         }

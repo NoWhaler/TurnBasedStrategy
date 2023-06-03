@@ -65,7 +65,6 @@ namespace TurnBasedGame.Scripts.GameInput
             
             
         }
-        
 
         public void EnterTile(BattleTile tile)
         {
@@ -121,7 +120,6 @@ namespace TurnBasedGame.Scripts.GameInput
                             _selectedTile.IsEmpty = false;
                             _selectionManager.Unit.IsSelected = false;
                             _selectionManager.Unit = null;
-                            Debug.Log("Put unit");
                         }
                     }
                 }
@@ -165,12 +163,6 @@ namespace TurnBasedGame.Scripts.GameInput
                     _selectedUnit.gameObject.SetActive(false);
                     _selectedUnit.BattleTile.IsEmpty = true;
                     _selectedUnit.BattleTile = null;
-                    Debug.Log("Remove Unit");
-                }
-                
-                else if (_selectedUnit != null && IsPutPhaseInputEnded)
-                {
-                    // Here we gonna show stats of unit
                 }
             }
         }

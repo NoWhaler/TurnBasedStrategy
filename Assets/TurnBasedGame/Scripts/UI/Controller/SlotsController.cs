@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using TurnBasedGame.Scripts.Enum;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-namespace TurnBasedGame.Scripts.UI
+namespace TurnBasedGame.Scripts.UI.Controller
 {
     public class SlotsController : MonoBehaviour
     {
