@@ -65,6 +65,10 @@ namespace TurnBasedGame.Scripts.GameInput
             
             
         }
+        
+        /// <summary>
+        ///  Метод, який викликається при вході курсору на тайл
+        /// </summary>
 
         public void EnterTile(BattleTile tile)
         {
@@ -83,6 +87,10 @@ namespace TurnBasedGame.Scripts.GameInput
             }
         }
 
+        /// <summary>
+        ///  Метод, який викликається при виході курсору з тайлу,
+        /// </summary>
+        
         public void ExitTile()
         {
             if (_selectedTile != null && !_turnManager.IsMoving)
@@ -93,7 +101,14 @@ namespace TurnBasedGame.Scripts.GameInput
             }
         }
 
-        private void Select()
+        
+        /// <summary>
+        ///  Метод, який викликається при натисканні лівої кнопки миші.
+        /// Визначає об'єкти, які були вибрані користувачем у грі,
+        /// і виконує відповідні дії, залежно від стану гри та фази,
+        /// у якій знаходиться користувач
+        /// </summary>
+        public void Select()
         {
             _ray = _camera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(_ray, out var hit, _tileLayerMask))
@@ -151,7 +166,12 @@ namespace TurnBasedGame.Scripts.GameInput
             }
         }
 
-        private void Deselect()
+        
+        /// <summary>
+        ///  Метод, який викликається при натисканні правої кнопки миші.
+        /// Знімає вибір з об'єктів, відповідних вибору користувача
+        /// </summary>
+        public void Deselect()
         {
             _ray = _camera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(_ray, out var hit, _unitLayerMask))
@@ -161,6 +181,7 @@ namespace TurnBasedGame.Scripts.GameInput
                 {
                     _selectedUnit.Position = Vector3.zero;
                     _selectedUnit.gameObject.SetActive(false);
+                    _selectedUnit.BattleTile.Unit = null;
                     _selectedUnit.BattleTile.IsEmpty = true;
                     _selectedUnit.BattleTile = null;
                 }

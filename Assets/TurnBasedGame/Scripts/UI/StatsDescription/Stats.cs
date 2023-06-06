@@ -56,16 +56,7 @@ namespace TurnBasedGame.Scripts.UI.StatsDescription
                 statDescription.DescriptionText.text = $"Шкода: {unit.MinDamage} / {unit.MaxDamage}";
                 AllDescriptions.Add(statDescription.DescriptionText);
             }
-            
-            if (unit.AttackRange != 0)
-            {
-                var transform1 = transform;
-                var statDescription = Instantiate(_description, transform1.position, Quaternion.identity, transform1);
-                
-                statDescription.DescriptionText.text = $"Дальність атаки: {unit.AttackRange}";
-                AllDescriptions.Add(statDescription.DescriptionText);
-            }
-            
+
             if (unit.MoveRange != 0)
             {
                 var transform1 = transform;
@@ -83,6 +74,13 @@ namespace TurnBasedGame.Scripts.UI.StatsDescription
                 statDescription.DescriptionText.text = $"Ініціатива: {unit.Initiative}";
                 AllDescriptions.Add(statDescription.DescriptionText);
             }
+            
+            var transform2 = transform;
+            var statDescription2 = Instantiate(_description, transform2.position, Quaternion.identity, transform2);
+
+            statDescription2.DescriptionText.text = $"Вид: {unit.UnitType}";
+            AllDescriptions.Add(statDescription2.DescriptionText);
+
         }
 
         public void ClearStats()

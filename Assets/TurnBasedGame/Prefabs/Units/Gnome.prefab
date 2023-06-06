@@ -642,23 +642,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <UnitName>k__BackingField: "\u0413\u043D\u043E\u043C"
+  <UnitLevel>k__BackingField: 4
   <CurrentHealthPoints>k__BackingField: 10
-  <MaxHealthPoints>k__BackingField: 10
+  <MaxHealthPoints>k__BackingField: 75
   <Attack>k__BackingField: 15
-  <Defense>k__BackingField: 0
-  <MinDamage>k__BackingField: 5
-  <MaxDamage>k__BackingField: 6
+  <Defense>k__BackingField: 30
+  <MinDamage>k__BackingField: 13
+  <MaxDamage>k__BackingField: 15
   <AttackRange>k__BackingField: 1
   <MoveRange>k__BackingField: 4
-  <Initiative>k__BackingField: 4
-  <UnitNumber>k__BackingField: 123
+  <Initiative>k__BackingField: 5
+  <UnitNumber>k__BackingField: 1
   <UnitType>k__BackingField: 0
   <UnitFractionType>k__BackingField: 0
-  <BattleTile>k__BackingField: {fileID: 0}
-  <IsSelected>k__BackingField: 0
   <UnitPortrait>k__BackingField: {fileID: 21300000, guid: 61dab0b6e506c6a43b12d9fde15b2393, type: 3}
-  <UnitsCountView>k__BackingField: {fileID: 0}
-  <HasCounterAttack>k__BackingField: 1
 --- !u!1 &4173840589750467064
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ namespace TurnBasedGame.Scripts.UI.Controller
 {
     public class UIController : MonoBehaviour
     {
+        
         public ShopSlot CurrentShopSlot { get; set; }
 
         private StateMachine.UIStateMachine _stateMachine;

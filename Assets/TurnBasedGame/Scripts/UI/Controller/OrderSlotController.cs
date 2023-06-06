@@ -57,7 +57,11 @@ namespace TurnBasedGame.Scripts.UI.Controller
             _turnManager.OnMakeMove -= MakeMove;
             _turnManager.OnMakeAttack -= DoAttack;
         }
-
+        
+        /// <summary>
+        /// Обробляє смерть одиниці і виконує відповідні дії,
+        /// такі як видалення зі списків армій та перевірка на виграш або програш
+        /// </summary>
         private void UnitDeath(Unit unit)
         {
             if (_allUnits.Contains(unit) && _sortedUnits.Contains(unit))
@@ -88,8 +92,11 @@ namespace TurnBasedGame.Scripts.UI.Controller
                 }
             }
         }
-        
 
+        /// <summary>
+        /// Викликається при здійсненні руху бойової одиниці.
+        /// Переставляє поточну одиницю на кінець списку та оновлює інтерфейс
+        /// </summary>
         private void MakeMove()
         {
             var currentUnit = _sortedUnits[0];
@@ -108,6 +115,11 @@ namespace TurnBasedGame.Scripts.UI.Controller
             ShuffleOrder();
         }
 
+        
+        /// <summary>
+        /// Викликається при здійсненні атаки бойовою одиницею.
+        /// Переставляє поточну одиницю на кінець списку та оновлює інтерфейс.
+        /// </summary>
         private void DoAttack()
         {
             var currentUnit = _sortedUnits[0];
@@ -161,7 +173,10 @@ namespace TurnBasedGame.Scripts.UI.Controller
             
             ShuffleOrder();
         }
-
+        
+        /// <summary>
+        /// Замінює поточну бойову одиницю на першу в списку і оновлює інтерфейс
+        /// </summary>
         private void SwapCurrentUnit()
         {
             _turnManager.CurrentUnitTurn = _sortedUnits[0];
@@ -175,7 +190,7 @@ namespace TurnBasedGame.Scripts.UI.Controller
 
         private void StartCombat()
         {
-            _allUnits = _playerArmy.Army;
+            _allUnits = new List<Unit>(_playerArmy.Army);
             _allUnits.AddRange(_enemyArmy.Army);
             _sortedUnits = _allUnits
                 .Where(unit => unit.gameObject.activeInHierarchy)
@@ -203,6 +218,10 @@ namespace TurnBasedGame.Scripts.UI.Controller
             
         }
 
+        
+        /// <summary>
+        /// Перемішує порядок бойових одиниць у списку та оновлює інтерфейс слотів
+        /// </summary>
         private void ShuffleOrder()
         {
             for (int i = 0; i < _battleOrderUnitSlots.Count; i++)
@@ -219,8 +238,6 @@ namespace TurnBasedGame.Scripts.UI.Controller
                 { 
                     _battleOrderUnitSlots[i].UnitFrame.color = new Color32(255, 0, 12, 165);
                 }
-
-                
             }
         }
     }

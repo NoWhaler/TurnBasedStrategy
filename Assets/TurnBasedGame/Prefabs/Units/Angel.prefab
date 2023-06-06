@@ -996,20 +996,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <UnitName>k__BackingField: "\u0410\u043D\u0433\u0435\u043B"
-  <CurrentHealthPoints>k__BackingField: 100
-  <MaxHealthPoints>k__BackingField: 100
-  <Attack>k__BackingField: 15
-  <Defense>k__BackingField: 0
-  <MinDamage>k__BackingField: 5
-  <MaxDamage>k__BackingField: 45
+  <UnitLevel>k__BackingField: 6
+  <CurrentHealthPoints>k__BackingField: 200
+  <MaxHealthPoints>k__BackingField: 200
+  <Attack>k__BackingField: 45
+  <Defense>k__BackingField: 33
+  <MinDamage>k__BackingField: 60
+  <MaxDamage>k__BackingField: 65
   <AttackRange>k__BackingField: 1
   <MoveRange>k__BackingField: 10
   <Initiative>k__BackingField: 15
   <UnitNumber>k__BackingField: 1
   <UnitType>k__BackingField: 0
   <UnitFractionType>k__BackingField: 0
-  <BattleTile>k__BackingField: {fileID: 0}
-  <IsSelected>k__BackingField: 0
   <UnitPortrait>k__BackingField: {fileID: 21300000, guid: b450d0b398880cb458f83d1a01b399ca, type: 3}
-  <UnitsCountView>k__BackingField: {fileID: 8622532103431206959}
-  <HasCounterAttack>k__BackingField: 1

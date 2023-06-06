@@ -1,5 +1,7 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
 using TurnBasedGame.Scripts.UI.Controller;
+using UnityEngine;
 
 namespace TurnBasedGame.Scripts.UI.ArmySlots
 {
@@ -8,7 +10,13 @@ namespace TurnBasedGame.Scripts.UI.ArmySlots
         private UIController _uiController;
 
         private CurrencyView _currencyView;
-
+        
+        [SerializeField] public List<ArmySlot> allArmySlots = new List<ArmySlot>();
+        
+        private void Awake()
+        {
+            allArmySlots = GetComponentsInChildren<ArmySlot>().ToList();
+        }
 
         private void OnEnable()
         {
